@@ -1,20 +1,67 @@
 import { Hono } from "hono";
 import { Context } from "hono";
-import { specializations } from "../../db/schema";
+import { faculties, specializations } from "../../db/schema";
 import { drizzle } from "drizzle-orm/d1";
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 
 const specializationController = new Hono<{ Bindings: { DB: D1Database } }>();
 
 specializationController.get("/", async (ctx: Context) => {
     const db = drizzle(ctx.env.DB);
 
-    const page = Number(ctx.req.query("page"));
+    const page = Number(ctx.req.query("page") || 1);
+
     const limit = 2;
+
+    if (page === -1) {
+        const data = await db
+            .select({
+                id: specializations.id,
+                name: specializations.name,
+                facultyName: faculties.name,
+            })
+            .from(specializations)
+            .leftJoin(faculties, eq(specializations.facultyId, faculties.id));
+
+        return ctx.json({
+            data,
+            meta: {
+                currentPage: null,
+                totalPages: 1,
+                totalRecords: data.length,
+                pageSize: data.length,
+            },
+        });
+    }
+
     const skip = (page - 1) * limit;
-    const result = await db.select().from(specializations).limit(limit).offset(skip);
-    return ctx.json(result);
+
+    const data = await db
+        .select({
+            id: specializations.id,
+            name: specializations.name,
+            facultyName: faculties.name,
+            totalRecords: sql<number>`COUNT(*) OVER()`,
+        })
+        .from(specializations)
+        .leftJoin(faculties, eq(specializations.facultyId, faculties.id))
+        .limit(limit)
+        .offset(skip);
+
+    const totalRecords = data[0]?.totalRecords || 0;
+    const totalPages = Math.ceil(totalRecords / limit);
+
+    return ctx.json({
+        data,
+        meta: {
+            currentPage: page,
+            totalPages,
+            totalRecords,
+            pageSize: limit,
+        },
+    });
 });
+
 
 specializationController.get("/:id", async (ctx: Context) => {
     const db = drizzle(ctx.env.DB);

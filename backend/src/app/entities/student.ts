@@ -22,12 +22,3 @@ export class Student {
         this.specializationId = specializationId;
     }
 }
-
-
-export interface IStudentsRepository {
-    create(data: Omit<Student, "id">): any;
-    getById(id: number): Promise<Student | null>;
-    getAll(): Promise<Student[]>;
-    update(id: number, data: Partial<Student>): Promise<void>;
-    delete(id: number): Promise<void>;
-}

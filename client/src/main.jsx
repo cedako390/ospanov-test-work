@@ -6,7 +6,7 @@ import axios from "axios";
 import {Notifications} from "@mantine/notifications";
 import '@mantine/notifications/styles.css';
 
-axios.defaults.baseURL = 'http://localhost:8787'
+axios.defaults.baseURL = import.meta.env.VITE_API
 const theme = createTheme({
     fontFamily: 'Inter, sans-serif',
 });

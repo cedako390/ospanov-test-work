@@ -1,0 +1,34 @@
+name = "backend"
+main = "src/index.ts"
+compatibility_date = "2025-01-13"
+node_compat = true
+
+
+[[d1_databases]]
+binding = "DB"
+database_name = "test2-backend-db"
+database_id = "224ac7e5-5253-4d7c-87d8-093a0723b04f"
+migrations_dir = "drizzle/migrations"
+
+# [vars]
+# MY_VAR = "my-variable"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "my-database"
+# database_id = ""
+
+# [ai]
+# binding = "AI"
+
+# [observability]
+# enabled = true
+# head_sampling_rate = 1

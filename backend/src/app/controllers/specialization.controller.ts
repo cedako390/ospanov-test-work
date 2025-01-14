@@ -19,6 +19,7 @@ specializationController.get("/", async (ctx: Context) => {
                 id: specializations.id,
                 name: specializations.name,
                 facultyName: faculties.name,
+                facultId: specializations.facultyId,
             })
             .from(specializations)
             .leftJoin(faculties, eq(specializations.facultyId, faculties.id));
@@ -41,6 +42,7 @@ specializationController.get("/", async (ctx: Context) => {
             id: specializations.id,
             name: specializations.name,
             facultyName: faculties.name,
+            facultId: specializations.facultyId,
             totalRecords: sql<number>`COUNT(*) OVER()`,
         })
         .from(specializations)
@@ -105,7 +107,7 @@ specializationController.delete("/:id", async (ctx: Context) => {
     const id = Number(ctx.req.param("id"));
 
     await db.delete(specializations).where(eq(specializations.id, id));
-    
+
     return ctx.json({ message: "Specialization deleted successfully" });
 });
 

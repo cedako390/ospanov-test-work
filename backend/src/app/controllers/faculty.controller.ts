@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { Context } from "hono";
-import { faculties } from "../../db/schema";
+import { faculties, specializations } from "../../db/schema";
 import { drizzle } from "drizzle-orm/d1";
 import { eq, sql } from 'drizzle-orm'
 
@@ -58,6 +58,25 @@ facultyController.get("/", async (ctx: Context) => {
     });
 });
 
+facultyController.get("/by-specialization/:specializationId", async (ctx: Context) => {
+    const db = drizzle(ctx.env.DB);
+    const specializationId = Number(ctx.req.param("specializationId"));
+
+    if (isNaN(specializationId)) {
+        return ctx.json({ error: "Некорректный ID специальности" }, 400);
+    }
+
+    const data = await db
+        .select({
+            id: faculties.id,
+            name: faculties.name,
+        })
+        .from(faculties)
+        .innerJoin(specializations, eq(faculties.id, specializations.facultyId))
+        .where(eq(specializations.id, specializationId));
+
+    return ctx.json({ data });
+});
 
 
 facultyController.get("/:id", async (ctx: Context) => {

@@ -21,6 +21,8 @@ studentController.get("/", async (ctx: Context) => {
             middleName: students.middleName,
             facultyName: faculties.name,
             specializationName: specializations.name,
+            facultId: students.facultyId,
+            specializationsId: students.specializationId,
             totalRecords: sql<number>`COUNT(*) OVER()`,
         })
         .from(students)

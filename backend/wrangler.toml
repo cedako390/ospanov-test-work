@@ -7,7 +7,7 @@ node_compat = true
 [[d1_databases]]
 binding = "DB"
 database_name = "test2-backend-db"
-database_id = "224ac7e5-5253-4d7c-87d8-093a0723b04f"
+database_id = "1a8398ca-c529-4740-b638-c9793ac44ff6"
 migrations_dir = "drizzle/migrations"
 
 # [vars]

@@ -4,9 +4,9 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import axios from 'axios';
 
-const StudentForm = () => {
-    const [faculties, setFaculties] = useState([]);
+const StudentForm = ({onSubmit, activeTab}) => {
     const [specializations, setSpecializations] = useState([]);
+    const [filteredFaculties, setFilteredFaculties] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const form = useForm({
@@ -26,19 +26,36 @@ const StudentForm = () => {
     });
 
     useEffect(() => {
-        const fetchFaculties = async () => {
-            const response = await axios.get('/faculties?page=-1');
-            setFaculties(response.data.data);
-        };
-
         const fetchSpecializations = async () => {
-            const response = await axios.get('/specializations?page=-1');
-            setSpecializations(response.data.data);
+            try {
+                const response = await axios.get('/specializations?page=-1');
+                setSpecializations(response.data.data);
+            } catch (error) {
+                console.error("Ошибка загрузки специальностей:", error);
+            }
         };
 
-        fetchFaculties();
         fetchSpecializations();
-    }, []);
+    }, [activeTab]);
+
+    useEffect(() => {
+        const fetchFilteredFaculties = async () => {
+            if (!form.values.specializationId) {
+                setFilteredFaculties([]);
+                return;
+            }
+
+            try {
+                const response = await axios.get(`/faculties/by-specialization/${form.values.specializationId}`);
+                setFilteredFaculties(response.data.data);
+            } catch (error) {
+                console.error("Ошибка загрузки факультетов:", error);
+                setFilteredFaculties([]);
+            }
+        };
+
+        fetchFilteredFaculties();
+    }, [form.values.specializationId]);
 
     const handleSubmit = async (values) => {
         setLoading(true);
@@ -51,8 +68,10 @@ const StudentForm = () => {
                 position: 'top-right',
             });
             form.reset();
+            setFilteredFaculties([]);
+            onSubmit()
         } catch (error) {
-            console.log(error)
+            console.error("Ошибка добавления студента:", error);
             notifications.show({
                 title: 'Ошибка',
                 message: 'Не удалось добавить студента.',
@@ -91,18 +110,18 @@ const StudentForm = () => {
                     </Grid.Col>
                     <Grid.Col span={12}>
                         <Select
-                            label="Факультет"
-                            placeholder="Выберите факультет"
-                            data={faculties.map((faculty) => ({ value: `${faculty.id}`, label: faculty.name }))}
-                            {...form.getInputProps('facultyId')}
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={12}>
-                        <Select
                             label="Специальность"
                             placeholder="Выберите специальность"
                             data={specializations.map((spec) => ({ value: `${spec.id}`, label: spec.name }))}
                             {...form.getInputProps('specializationId')}
+                        />
+                    </Grid.Col>
+                    <Grid.Col span={12}>
+                        <Select
+                            label="Факультет"
+                            placeholder="Выберите факультет"
+                            data={filteredFaculties.map((faculty) => ({ value: `${faculty.id}`, label: faculty.name }))}
+                            {...form.getInputProps('facultyId')}
                         />
                     </Grid.Col>
                     <Grid.Col span={12}>

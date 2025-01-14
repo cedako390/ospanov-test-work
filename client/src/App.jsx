@@ -53,14 +53,14 @@ const App = () => {
                     <Tabs.Panel value="students">
                         <Grid mt={16}>
                             <Grid.Col span={4}>
-                                <StudentForm/>
+                                <StudentForm onSubmit={() => fetchRecords(activeTab)}  activeTab={activeTab}/>
                             </Grid.Col>
                             <Grid.Col span={8}>
                                 <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
                                     <div style={{flexGrow: 1, overflow: 'auto'}}>
                                         <Table>
                                             {records.map((record, index) => (
-                                                <StudentCard key={index} student={record}/>
+                                                <StudentCard key={index} student={record} updateList={() => fetchRecords(activeTab)} />
                                             ))}
                                         </Table>
                                     </div>
@@ -81,14 +81,14 @@ const App = () => {
                     <Tabs.Panel value="specializations">
                         <Grid mt={16}>
                             <Grid.Col span={4}>
-                                <SpecializationForm/>
+                                <SpecializationForm onSubmit={() => fetchRecords(activeTab)} activeTab={activeTab}/>
                             </Grid.Col>
                             <Grid.Col span={8}>
                                 <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
                                     <div style={{flexGrow: 1, overflow: 'auto'}}>
                                         <Table>
                                             {records.map((record, index) => (
-                                                <SpecializationCard key={index} specialization={record}/>
+                                                <SpecializationCard key={index} specialization={record} updateList={() => fetchRecords(activeTab)}/>
                                             ))}
                                         </Table>
                                     </div>
@@ -108,14 +108,14 @@ const App = () => {
                     <Tabs.Panel value="faculties">
                         <Grid mt={16}>
                             <Grid.Col span={4}>
-                                <FacultyForm/>
+                                <FacultyForm onSubmit={() => fetchRecords(activeTab)}/>
                             </Grid.Col>
                             <Grid.Col span={8}>
                                 <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
                                     <div style={{flexGrow: 1, overflow: 'auto'}}>
                                         <Table>
                                             {records.map((record, index) => (
-                                                <FacultyCard key={index} faculty={record}/>
+                                                <FacultyCard key={index} faculty={record} updateList={() => fetchRecords(activeTab)}/>
                                             ))}
                                         </Table>
                                     </div>

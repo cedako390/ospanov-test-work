@@ -31,3 +31,14 @@
     }
   }
 }
+
+.deleteModal {
+  font-weight: 500;
+
+  .actions {
+    display: flex;
+    gap: 8px;
+    justify-content: end;
+    margin-top: 12px;
+  }
+}

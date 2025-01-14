@@ -4,7 +4,7 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import axios from 'axios';
 
-const SpecializationForm = () => {
+const SpecializationForm = ({onSubmit, activeTab}) => {
     const [faculties, setFaculties] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -30,7 +30,7 @@ const SpecializationForm = () => {
         };
 
         fetchFaculties();
-    }, []);
+    }, [activeTab]);
 
     const handleSubmit = async (values) => {
         setLoading(true);
@@ -43,7 +43,9 @@ const SpecializationForm = () => {
                 position: 'top-right',
             });
             form.reset();
+            onSubmit()
         } catch (error) {
+            console.log(error)
             notifications.show({
                 title: 'Ошибка',
                 message: 'Не удалось добавить специальность.',

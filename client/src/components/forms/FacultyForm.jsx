@@ -4,7 +4,7 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import axios from 'axios';
 
-const FacultyForm = () => {
+const FacultyForm = ({onSubmit}) => {
     const [loading, setLoading] = useState(false);
 
     const form = useForm({
@@ -27,7 +27,9 @@ const FacultyForm = () => {
                 position: 'top-right',
             });
             form.reset();
+            onSubmit()
         } catch (error) {
+            console.log(error)
             notifications.show({
                 title: 'Ошибка',
                 message: 'Не удалось добавить факультет.',

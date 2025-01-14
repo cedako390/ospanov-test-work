@@ -9,7 +9,11 @@ export interface Env {
 }
 
 const app = new Hono<{ Bindings: Env }>();
-app.use('*', cors())
+app.use('*', cors(
+  {
+    origin: ['http://localhost:5173', 'https://ospanov-test-work.pages.dev'],
+  }
+))
 app.route("/students", studentController);
 app.route("/faculties", facultyController);
 app.route("/specializations", specializationController);

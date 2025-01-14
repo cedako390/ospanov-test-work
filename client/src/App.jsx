@@ -51,86 +51,90 @@ const App = () => {
                     </Tabs.List>
 
                     <Tabs.Panel value="students">
-                        <Grid mt={16}>
-                            <Grid.Col span={4}>
-                                <StudentForm onSubmit={() => fetchRecords(activeTab)}  activeTab={activeTab}/>
-                            </Grid.Col>
-                            <Grid.Col span={8}>
-                                <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
-                                    <div style={{flexGrow: 1, overflow: 'auto'}}>
-                                        <Table>
-                                            {records.map((record, index) => (
-                                                <StudentCard key={index} student={record} updateList={() => fetchRecords(activeTab)} />
-                                            ))}
-                                        </Table>
-                                    </div>
-                                    <div style={{marginTop: '16px'}}>
-                                        <Pagination
-                                            total={totalPages}
-                                            page={currentPages[activeTab]}
-                                            onChange={handlePageChange}
-                                        />
-
-                                    </div>
+                        <div className={styles.grid}>
+                            <div className={styles.column}>
+                                <StudentForm onSubmit={() => fetchRecords(activeTab)}/>
+                            </div>
+                            <div className={styles.column}>
+                                <div className={styles.scrollable}>
+                                    <Table>
+                                        {records.map((record, index) => (
+                                            <StudentCard
+                                                key={index}
+                                                student={record}
+                                                updateList={() => fetchRecords(activeTab)}
+                                            />
+                                        ))}
+                                    </Table>
                                 </div>
-                            </Grid.Col>
-                        </Grid>
+                                <div className={styles.paginationWrapper}>
+                                    <Pagination
+                                        total={totalPages}
+                                        page={currentPages[activeTab]}
+                                        onChange={handlePageChange}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </Tabs.Panel>
 
 
                     <Tabs.Panel value="specializations">
-                        <Grid mt={16}>
-                            <Grid.Col span={4}>
-                                <SpecializationForm onSubmit={() => fetchRecords(activeTab)} activeTab={activeTab}/>
-                            </Grid.Col>
-                            <Grid.Col span={8}>
-                                <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
-                                    <div style={{flexGrow: 1, overflow: 'auto'}}>
-                                        <Table>
-                                            {records.map((record, index) => (
-                                                <SpecializationCard key={index} specialization={record} updateList={() => fetchRecords(activeTab)}/>
-                                            ))}
-                                        </Table>
-                                    </div>
-                                    <div style={{marginTop: '16px'}}>
-                                        <Pagination
-                                            total={totalPages}
-                                            page={currentPages[activeTab]}
-                                            onChange={handlePageChange}
-                                        />
-
-                                    </div>
+                        <div className={styles.grid}>
+                            <div className={styles.column}>
+                                <SpecializationForm onSubmit={() => fetchRecords(activeTab)} activeTab={activeTab} />
+                            </div>
+                            <div className={styles.column}>
+                                <div className={styles.scrollable}>
+                                    <Table>
+                                        {records.map((record, index) => (
+                                            <SpecializationCard
+                                                key={index}
+                                                specialization={record}
+                                                updateList={() => fetchRecords(activeTab)}
+                                            />
+                                        ))}
+                                    </Table>
                                 </div>
-                            </Grid.Col>
-                        </Grid>
+                                <div className={styles.paginationWrapper}>
+                                    <Pagination
+                                        total={totalPages}
+                                        page={currentPages[activeTab]}
+                                        onChange={handlePageChange}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </Tabs.Panel>
 
                     <Tabs.Panel value="faculties">
-                        <Grid mt={16}>
-                            <Grid.Col span={4}>
-                                <FacultyForm onSubmit={() => fetchRecords(activeTab)}/>
-                            </Grid.Col>
-                            <Grid.Col span={8}>
-                                <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
-                                    <div style={{flexGrow: 1, overflow: 'auto'}}>
-                                        <Table>
-                                            {records.map((record, index) => (
-                                                <FacultyCard key={index} faculty={record} updateList={() => fetchRecords(activeTab)}/>
-                                            ))}
-                                        </Table>
-                                    </div>
-                                    <div style={{marginTop: '16px'}}>
-                                        <Pagination
-                                            total={totalPages}
-                                            page={currentPages[activeTab]}
-                                            onChange={handlePageChange}
-                                        />
-
-                                    </div>
+                        <div className={styles.grid}>
+                            <div className={styles.column}>
+                                <FacultyForm onSubmit={() => fetchRecords(activeTab)} />
+                            </div>
+                            <div className={styles.column}>
+                                <div className={styles.scrollable}>
+                                    <Table>
+                                        {records.map((record, index) => (
+                                            <FacultyCard
+                                                key={index}
+                                                faculty={record}
+                                                updateList={() => fetchRecords(activeTab)}
+                                            />
+                                        ))}
+                                    </Table>
                                 </div>
-                            </Grid.Col>
-                        </Grid>
+                                <div className={styles.paginationWrapper}>
+                                    <Pagination
+                                        total={totalPages}
+                                        page={currentPages[activeTab]}
+                                        onChange={handlePageChange}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </Tabs.Panel>
+
                 </Tabs>
             </Paper>
         </div>
